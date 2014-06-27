@@ -63,11 +63,26 @@ RSpec.describe UsersController, :type => :controller do
     end
   end
 
-  describe '#udpate' do
+  describe '#udpate', :focus do
+    before do
+      @user = create(:user, first_name: "Britney", last_name: "Beiber", mood: "weird")
+    end
+    context 'when the update was successful' do
+      it 'uptdates the user from "Britney" to "Christina" and redirects to the user index page' do
+        put :update, id: @user.id, user: {first_name: "Christina"}
+        expect (@user.reload.first_name).to eq "Christina"
+        expect(response).to be_redirect
+        expect(response).to redirect_to user_path
+      end
+    end
+
+    context 'when the update failed' do
+
+    end
 
   end
 
-  describe '#destroy' , :focus do
+  describe '#destroy'  do
     before do
       @user = create(:user)
     end
